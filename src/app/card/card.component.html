@@ -1,0 +1,15 @@
+ <div >
+    
+    <table class = BingoCard>
+        <tr>
+            <th *ngFor="let head of cardHead">{{head}}</th> 
+        </tr>
+       
+        <tr *ngFor="let row of cardNums; let i = index">
+            <td [class.dabbedSquare]="cardBools[i][j]" *ngFor="let string of row; let j = index">{{ string }}</td>
+       
+    </table>
+
+    <div *ngIf="didWin">{{message}}</div>
+  </div>  
+  

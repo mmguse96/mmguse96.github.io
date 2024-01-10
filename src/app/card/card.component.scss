@@ -1,0 +1,19 @@
+table,td,tr,th{
+    border: 1px solid;
+    border-collapse: collapse;
+    text-align: center;
+    
+}
+
+th,td{
+    width: 5em;
+    height: 5em;
+}
+
+th{
+    background-color: burlywood;
+}
+
+.dabbedSquare{
+    background-color: red;
+}

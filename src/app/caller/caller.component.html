@@ -1,0 +1,12 @@
+<div>
+
+    <img class="bingoBall" src="../assets/BingoBalls/{{ballNum}}.png"/>
+    <br>
+    <span *ngFor="async let data of calledBalls ">
+        <img class="calledBalls" src="../assets/BingoBalls/{{data}}.png"/>
+    </span>
+    <br>
+    <button (click)="callBalls()">Start</button>
+
+</div>
+
