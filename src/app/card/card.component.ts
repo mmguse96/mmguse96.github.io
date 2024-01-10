@@ -46,6 +46,9 @@ export class CardComponent implements OnInit{
       this.sharedService.ballNum$.subscribe((ballNum) => {
         this.ballNum = ballNum;
         this.checkForCalledBall();
+        if (this.checkForWin()) {
+          this.didWin = true;
+        }
       });
       console.log(this.cardHead);
       console.log(this.cardNums);
@@ -180,105 +183,61 @@ checkForCalledBall(){
 }
 
 checkForWin(){
-  //horizontal check
-  for (let i = 0; i < 5; i++)
-  {
-      this.didWin = true;
-      for (let j = 0; j < 5; j++)
-      {
-          
-          //if (card[i,j].dabbed == true) { Console.WriteLine("spot dabbed hCheck: " + card[i, j].cNumber); }
-          if (this.cardBools[i][j] == false)
-          {
-              
-              this.didWin = false;
-              //Console.WriteLine("false");
-              break;
-          }
+  // Reset didWin at the beginning of each check
+  this.didWin = false;
+
+  // horizontal check
+  for (let i = 0; i < 5; i++) {
+    this.didWin = true;
+    for (let j = 0; j < 5; j++) {
+      if (this.cardBools[i][j] === false) {
+        this.didWin = false;
+        break;
       }
-      if (this.didWin == true)
-      {
-          return true;
-      }
+    }
+    if (this.didWin) {
+      return true;
+    }
   }
 
-  if (!this.didWin)
-  {
-      //vertical check
-      for (let i = 0; i < 5; i++)
-      {
-          this.didWin = true;
-
-          for (let j = 0; j < 5; j++)
-          {
-              
-              
-
-              if (this.cardBools[j][i] == false)
-              {
-                  
-                  this.didWin = false;
-                  //Console.WriteLine("false");
-                  break;
-              }
-          }
-
-          if (this.didWin == true)
-          {
-              
-              return true;
-          }
+  // vertical check
+  for (let i = 0; i < 5; i++) {
+    this.didWin = true;
+    for (let j = 0; j < 5; j++) {
+      if (this.cardBools[j][i] === false) {
+        this.didWin = false;
+        break;
       }
-  }
-  if (!this.didWin)
-  {
-      //left diagonal
-      for (let i = 0; i < 5; i++)
-      {
-          this.didWin = true;
-        
-          
-
-          if (this.cardBools[i][i] == false)
-          {
-              
-              this.didWin = false;
-              
-              break;
-          }
-      }
-
-      if (this.didWin == true)
-      {
-          
-          return true;
-      }
+    }
+    if (this.didWin) {
+      return true;
+    }
   }
 
-  if (!this.didWin)
-  {
-      //right diagonal
-      for (let i = 4; i >= 0; i--)
-      {
-          this.didWin = true;
-          
-          
-
-          if (this.cardBools[i][i] == false)
-          {
-              
-              this.didWin = false;
-             
-              break;
-          }
-
-      }
-      if (this.didWin== true)
-      {
-          
-          return true;
-      }
+  // left diagonal
+  this.didWin = true;
+  for (let i = 0; i < 5; i++) {
+    if (this.cardBools[i][i] === false) {
+      this.didWin = false;
+      break;
+    }
   }
+  if (this.didWin) {
+    return true;
+  }
+
+  // right diagonal
+  this.didWin = true;
+  for (let i = 4; i >= 0; i--) {
+    if (this.cardBools[i][4 - i] === false) {
+      this.didWin = false;
+      break;
+    }
+  }
+  if (this.didWin) {
+    return true;
+  }
+
   return false;
 }
 }

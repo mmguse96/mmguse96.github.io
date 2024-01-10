@@ -1,15 +1,17 @@
- <div >
-    
-    <table class = BingoCard>
-        <tr>
-            <th *ngFor="let head of cardHead">{{head}}</th> 
-        </tr>
-       
-        <tr *ngFor="let row of cardNums; let i = index">
-            <td [class.dabbedSquare]="cardBools[i][j]" *ngFor="let string of row; let j = index">{{ string }}</td>
-       
-    </table>
+<div class="didWin" *ngIf="didWin">{{ message }}</div>
 
-    <div *ngIf="didWin">{{message}}</div>
-  </div>  
+<div class="Card">
+
+        <table>
+            <tr>
+                <th *ngFor="let head of cardHead">{{ head }}</th>
+            </tr>
+            <tr *ngFor="let row of cardNums; let i = index">
+                <td [class.dabbedSquare]="cardBools[i][j]" *ngFor="let string of row; let j = index">{{ string }}</td>
+            </tr>
+        </table>
+
+</div>
+
+
   

@@ -81,4 +81,8 @@ export class CallerComponent implements OnChanges, OnInit{
 
   }
 
+  restartGame(){
+    window.location.reload();
+  }
+
 }
