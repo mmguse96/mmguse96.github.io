@@ -1,8 +1,9 @@
 .Card {
-    text-align: center;
-    margin: 2%;
-    margin-left: 40%;
-    width: 50%; 
+   display: flex;
+    justify-content: center;
+    align-items: center;
+     
+    
 }
 
 table,td,tr,th{
@@ -19,6 +20,9 @@ th,td{
 
 th{
     background-color: rgb(121, 12, 75);
+}
+td{
+    background-color: antiquewhite;
 }
 
 .dabbedSquare{
