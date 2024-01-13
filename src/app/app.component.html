@@ -1,9 +1,16 @@
 <html>
     <h1>Bingo Game</h1>
     <body>
-        
+
         <app-caller></app-caller>
-        <app-card ></app-card>
+        <app-select-cards></app-select-cards>
+        <span *ngFor="let num of getRange(NumOfCards)">
+            <app-card></app-card>
+                    
+        </span>
+        
+    
+        
     
     </body>
     

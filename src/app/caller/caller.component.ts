@@ -15,7 +15,8 @@ export class CallerComponent implements OnChanges, OnInit{
   ball = 0;
   prevBall = '';
   calledBalls:string[] = [];
- 
+  didWin:boolean = false;
+  startBalls: boolean = false;
 
 
   constructor(
@@ -39,13 +40,16 @@ export class CallerComponent implements OnChanges, OnInit{
       //console.log(this.balls);
       this.shuffleBalls();
       this.ballNum = this.balls[0];
-
     
+    });
+    this.sharedService.didWin$.subscribe((didWin) => {
+      this.didWin = didWin;
     });
   }
 
   callBalls(){
 
+    this.startBalls = true;
     const intervalID = setInterval(()=> {
       if(this.ball < 45){
 
@@ -54,6 +58,10 @@ export class CallerComponent implements OnChanges, OnInit{
         this.ball++;
         this.ballNum =this.balls[this.ball];
         this.sharedService.setBallNum(this.ballNum);
+
+        if(this.didWin){
+          clearInterval(intervalID);
+        }
         
       } else{
         clearInterval(intervalID);

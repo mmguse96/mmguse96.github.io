@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { CallerComponent } from './caller/caller.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CardComponent } from './card/card.component';
+import { SelectCardsComponent } from './select-cards/select-cards.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CallerComponent,
-    CardComponent
+    CardComponent,
+    SelectCardsComponent
   ],
   imports: [
     BrowserModule,

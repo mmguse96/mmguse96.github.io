@@ -48,6 +48,7 @@ export class CardComponent implements OnInit{
         this.checkForCalledBall();
         if (this.checkForWin()) {
           this.didWin = true;
+          this.sharedService.setDidWin(this.didWin);
         }
       });
       console.log(this.cardHead);

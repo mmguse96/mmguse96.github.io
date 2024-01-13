@@ -1,4 +1,5 @@
 import { Component,OnInit,OnChanges, SimpleChanges, Input, EventEmitter, Output } from '@angular/core';
+import { SharedDataService } from './shared-data.service';
 
 
 @Component({
@@ -6,18 +7,26 @@ import { Component,OnInit,OnChanges, SimpleChanges, Input, EventEmitter, Output 
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent  implements OnChanges, OnInit{
+export class AppComponent  implements OnInit{
   title = 'bingo-game';
+ 
   
+  NumOfCards: number = 1;
 
- 
- 
-  ngOnChanges(changes: SimpleChanges): void {
-    
-    
-  }
+  constructor(
+    private sharedData: SharedDataService
+  ){}
   
   ngOnInit(): void {
+    this.sharedData.NumOfCards$.subscribe((NumOfCards) => {
+      this.NumOfCards = NumOfCards;
+      console.log(NumOfCards);
+      
+    });
+
     
+  }
+  getRange(NumOfCards: number): number[] {
+    return new Array(NumOfCards);
   }
 }
