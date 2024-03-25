@@ -11,7 +11,7 @@ export class AppComponent  implements OnInit{
   title = 'bingo-game';
  
   
-  NumOfCards: number = 1;
+  NumOfCards: number = 4;
 
   constructor(
     private sharedData: SharedDataService

@@ -1,13 +1,14 @@
 <html>
     <h1>Bingo Game</h1>
     <body>
-
+        <app-points-board></app-points-board>
         <app-caller></app-caller>
         <app-select-cards></app-select-cards>
-        <span *ngFor="let num of getRange(NumOfCards)">
-            <app-card></app-card>
-                    
-        </span>
+        <span *ngFor=" let index of [0,1,2,3] ">
+            
+                <app-card></app-card>
+      
+        </span> 
         
     
         

@@ -6,6 +6,7 @@ import { CallerComponent } from './caller/caller.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CardComponent } from './card/card.component';
 import { SelectCardsComponent } from './select-cards/select-cards.component';
+import { PointsBoardComponent } from './points-board/points-board.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SelectCardsComponent } from './select-cards/select-cards.component';
     AppComponent,
     CallerComponent,
     CardComponent,
-    SelectCardsComponent
+    SelectCardsComponent,
+    PointsBoardComponent
   ],
   imports: [
     BrowserModule,
