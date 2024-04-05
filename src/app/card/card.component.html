@@ -1,8 +1,8 @@
 <div class="didWin" *ngIf="didWin">{{ message }}</div>
 
-<div class="Card">
+<div class="Card" >
 
-        <table>
+        <table (click)="selectCard()" [class.selectedCard]="selected">
             <tr>
                 <th *ngFor="let head of cardHead">{{ head }}</th>
             </tr>

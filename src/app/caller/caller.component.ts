@@ -50,7 +50,7 @@ export class CallerComponent implements OnChanges, OnInit{
   callBalls(){
 
     this.startBalls = true;
-    const intervalID = setInterval(()=> {
+    const intervalID = setInterval(() => {
       if(this.ball < 45){
 
         this.prevBall = this.ballNum;

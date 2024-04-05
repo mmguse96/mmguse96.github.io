@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { GetBallsService } from '../get-balls.service';
 import { SharedDataService } from '../shared-data.service';
+import { PointsHandlerService } from '../points-handler.service';
 
 
 @Component({
@@ -22,11 +23,14 @@ export class CardComponent implements OnInit{
   dabbedColour = '';
   didWin:boolean= false;
   message= "you Win!";
+  selected : boolean = false;
 
   constructor(
     private getBallsService: GetBallsService,
     private location: Location,
-    private sharedService: SharedDataService
+    private sharedService: SharedDataService,
+    private pointsHandler: PointsHandlerService
+    
    
   ){}
 
@@ -240,6 +244,20 @@ checkForWin(){
   }
 
   return false;
+}
+
+selectCard(){
+  if(this.selected == false){
+    //change to true and set to true in points handler service
+    this.selected = true;
+    this.pointsHandler.setCardSelection(this.selected);
+  }
+  else if(this.selected == true){
+    //change to false and set to false in points handler service
+    this.selected = false;
+    this.pointsHandler.setCardSelection(this.selected);
+    
+  }
 }
 }
   
