@@ -1,8 +1,8 @@
-import { Component,OnInit,OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component,OnInit,OnChanges, SimpleChanges, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { GetBallsService } from '../get-balls.service';
-
 import { SharedDataService } from '../shared-data.service';
+import { PointsBoardComponent } from '../points-board/points-board.component';
 
 @Component({
   selector: 'app-caller',
@@ -18,11 +18,17 @@ export class CallerComponent implements OnChanges, OnInit{
   didWin:boolean = false;
   startBalls: boolean = false;
 
+  @ViewChild(PointsBoardComponent) PointsBoard!: PointsBoardComponent;
+
+  points:number = 0;
+  total:number = 0;
+  canPlay:boolean = false;
 
   constructor(
     private getBallsService: GetBallsService,
     private location: Location,
-    private sharedService: SharedDataService
+    private sharedService: SharedDataService,
+    
   ){}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,32 +50,76 @@ export class CallerComponent implements OnChanges, OnInit{
     });
     this.sharedService.didWin$.subscribe((didWin) => {
       this.didWin = didWin;
+      this.checkIfEnoughPoints();
     });
-  }
+    this.sharedService.didWin$.subscribe((didWin) => {
+      this.didWin = didWin;
+      this.checkIfEnoughPoints();
+    });
+    this.sharedService.didWin$.subscribe((didWin) => {
+      this.didWin = didWin;
+      this.checkIfEnoughPoints();
+    });
+    this.sharedService.Points$.subscribe((points) => {
+      this.points = parseInt(points);
+      console.log("Points:", this.points);
+      this.checkIfEnoughPoints();
+    });
+    this.sharedService.Total$.subscribe((total) => {
+      this.total = parseInt(total);
+      console.log("Total:", this.total);
+      this.checkIfEnoughPoints();
+  });
+}
 
-  callBalls(){
+getPoints(){
+  this.PointsBoard.getPoints();
+}
 
-    this.startBalls = true;
-    const intervalID = setInterval(() => {
-      if(this.ball < 45){
+callBalls() {
+  // Asynchronously check if the user can play
+  this.checkIfEnoughPoints().then(canPlay => {
+      if (canPlay) {
+          // User has enough points, start calling balls
 
-        this.prevBall = this.ballNum;
-        this.calledBalls.push(this.prevBall);
-        this.ball++;
-        this.ballNum =this.balls[this.ball];
-        this.sharedService.setBallNum(this.ballNum);
 
-        if(this.didWin){
-          clearInterval(intervalID);
-        }
-        
-      } else{
-        clearInterval(intervalID);
+          console.log("Points before deduction:", this.points);
+            console.log("Total before deduction:", this.total);
+
+
+          this.points -= this.total; // Deduct total from points
+          this.sharedService.setPoints(this.points.toString()); 
+          localStorage.setItem('points', this.points.toString());
+          this.getPoints();
+
+          console.log("Points after deduction:", this.points);
+          this.startBalls = true;
+
+          const intervalID = setInterval(() => {
+              if (this.ball < 45) {
+                  this.prevBall = this.ballNum;
+                  this.calledBalls.push(this.prevBall);
+                  this.ball++;
+                  this.ballNum = this.balls[this.ball];
+                  this.sharedService.setBallNum(this.ballNum);
+                  if (this.didWin) {
+                      clearInterval(intervalID);
+                  }
+              } else {
+                  clearInterval(intervalID);
+              }
+          }, 1000);
+      } else {
+          // User doesn't have enough points, prevent starting the game
+          console.log("Cannot play: Not enough points");
       }
-    }, 1000);
-    
+  }).catch(error => {
+      // Handle any errors that might occur during the check
+      console.error("Error while checking points:", error);
+  });
+}
 
-  }
+
 
   shuffleBalls(){
     
@@ -92,5 +142,21 @@ export class CallerComponent implements OnChanges, OnInit{
   restartGame(){
     window.location.reload();
   }
+
+  checkIfEnoughPoints(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+
+        
+        if (this.total <= this.points) {
+            console.log("enough points");
+            this.canPlay = true;
+            resolve(true); // Resolve with true if enough points
+        } else {
+            console.log("not enough points");
+            this.canPlay = false;
+            resolve(false); // Resolve with false if not enough points
+        }
+    });
+}
 
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { PointsHandlerService } from '../points-handler.service';
+import { Component, OnInit, SimpleChanges,ChangeDetectorRef } from '@angular/core';
+import { PointsHandlerService } from '../card-handler.service';
+import { SharedDataService } from '../shared-data.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,17 +10,21 @@ import { Subscription } from 'rxjs';
 })
 export class PointsBoardComponent implements OnInit {
 
-  Score: string = "0";
+  Points: string = "0";
   Total: string = "0";
   selectedCard :boolean = false;
   TotalInt = 0;
   CardCost = 100;
   Prize = 200;
+  isEnough : boolean = false;
   private PointsHandlerSubscription!: Subscription;
+  
   
 
   constructor(
     private pointsHandler:PointsHandlerService,
+    private sharedData:SharedDataService,
+    private cdr: ChangeDetectorRef
     
   ){}
   
@@ -30,7 +35,10 @@ export class PointsBoardComponent implements OnInit {
     }
     else{
       this.RemoveFromTotal();
-    }
+    } 
+
+    this.sharedData.getPoints(this.Points);
+    this.sharedData.getTotal(this.Total);
   });
   }
 
@@ -49,10 +57,10 @@ getPoints(){
 
   if(points === '' ||points === null){
     localStorage.setItem('points', '1000');
-    this.Score = '1000';
+    this.Points = '1000';
   }
   else{
-    this.Score = points;
+    this.Points = points;
   }
 }
 
@@ -65,6 +73,8 @@ addPoints(){
     localStorage.setItem('points', numOfPoints.toString());
   }
   this.getPoints();
+
+  this.cdr.detectChanges();
 }
 
 removePoints(){
@@ -76,6 +86,8 @@ removePoints(){
     localStorage.setItem('points', numOfPoints.toString());
   }
   this.getPoints();
+
+  this.cdr.detectChanges();
 }
 
 
@@ -83,6 +95,8 @@ addToTotal(){
   this.TotalInt = parseInt(this.Total);
   this.TotalInt = this.TotalInt + this.CardCost;
   this.Total = this.TotalInt.toString();
+
+  this.cdr.detectChanges();
 }
 
 RemoveFromTotal(){
@@ -93,7 +107,18 @@ RemoveFromTotal(){
   else{
     this.TotalInt = this.TotalInt - this.CardCost;
     this.Total = this.TotalInt.toString();
+
+    this.cdr.detectChanges();
   }
   
+}
+
+CheckTotalVsBalance(): Boolean{
+  
+  if(parseInt(this.Total) <= parseInt(this.Points)){
+    return this.isEnough = true;
+  }
+
+  return this.isEnough = false;
 }
 }

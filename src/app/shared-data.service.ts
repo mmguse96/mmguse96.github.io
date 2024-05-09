@@ -15,6 +15,16 @@ export class SharedDataService {
   private didWin = new BehaviorSubject<boolean>(false);
   didWin$ = this.didWin.asObservable();
 
+  private total = new BehaviorSubject<string>("");
+  Total$ = this.total.asObservable();
+
+  private points = new BehaviorSubject<string>("");
+  Points$ = this.points.asObservable();
+
+  private pointsIsEnough = new BehaviorSubject<boolean>(false);
+  pointsIsEnough$ = this.pointsIsEnough.asObservable();
+
+
   getNumOfCards(numOfCards: number){
     this.NumOfCard.next(numOfCards);
   }
@@ -27,4 +37,17 @@ export class SharedDataService {
   setDidWin(didWin:boolean){
     this.didWin.next(didWin);
   }
+
+  getTotal(total: string){
+    this.total.next(total);
+  }
+
+  getPoints(points: string){
+    this.points.next(points);
+  }
+
+  setPoints(points:string){
+    this.points.next(points);
+  }
+
 }

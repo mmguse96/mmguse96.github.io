@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { GetBallsService } from '../get-balls.service';
 import { SharedDataService } from '../shared-data.service';
-import { PointsHandlerService } from '../points-handler.service';
+import { PointsHandlerService } from '../card-handler.service';
 
 
 @Component({
