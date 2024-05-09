@@ -72,9 +72,9 @@ export class CallerComponent implements OnChanges, OnInit{
   });
 }
 
-getPoints(){
+/* getPoints(){
   this.PointsBoard.getPoints();
-}
+} */
 
 callBalls() {
   // Asynchronously check if the user can play
@@ -90,7 +90,7 @@ callBalls() {
           this.points -= this.total; // Deduct total from points
           this.sharedService.setPoints(this.points.toString()); 
           localStorage.setItem('points', this.points.toString());
-          this.getPoints();
+          // this.getPoints();
 
           console.log("Points after deduction:", this.points);
           this.startBalls = true;
